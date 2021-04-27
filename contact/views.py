@@ -1,17 +1,14 @@
 from django.shortcuts import render, redirect
-from django.views import View
-# from .forms import CreateContactForm
 from .models import Contact
 
 
 def index(request):
-    contact_lists = Contact.objects.all().order_by("full_name")
+    contact_lists = Contact.objects.all()
 
     return render(request, 'index.html', {'contact_lists': contact_lists})
 
 
 def create(request):
-    # form = CreateContactForm()
 
     if request.method == 'POST':
         full_name = request.POST['fullname']
@@ -56,6 +53,18 @@ def edit(request, pk):
 def destroy(request, pk):
     contact = Contact.objects.get(pk=pk)
 
-    contact.delete()
+    if request.method == 'POST':
+        contact.delete()
+        return redirect('/')
+
+    return render(request, 'delete.html', {'contact': contact})
+
+
+def search(request):
+
+    if request.method == "POST":
+        name = request.POST['search-area']
+        contact = Contact.objects.filter(full_name__icontains=name)
+        return render(request, 'index.html', {'contact_lists': contact, 'name': name})
 
     return redirect('/')

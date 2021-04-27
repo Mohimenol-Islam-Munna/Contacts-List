@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import index, create, details, edit, destroy
+from .views import index, create, details, edit, destroy, search
 
 
 urlpatterns = [
@@ -8,4 +8,5 @@ urlpatterns = [
     path('contact-details/<int:pk>', details, name='contact-details'),
     path('edit-contact/<int:pk>', edit, name='edit-contact'),
     path('delete-contact/<int:pk>', destroy, name='delete-contact'),
+    path('search-contact/', search, name='search-contact'),
 ]

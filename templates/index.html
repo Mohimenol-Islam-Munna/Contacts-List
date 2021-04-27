@@ -21,18 +21,20 @@
 		<!--  SEARCH FORM -->
 		<header class="header">
 
-			<form class="search-bar">
-				<input type="search-name" class="contact-search" name="search-area" placeholder="Search">
+			<form class="search-bar" action="{% url 'search-contact' %}" method="POST">
+				{% csrf_token %}
+				<input type="search" class="contact-search" name="search-area" placeholder="Search" value="{{name}}">
+				<!-- <input type="submit" name="submit" value="Submit"> -->
 			</form>
 
 			<!--  ADD-CONTACT BUTTON/ICON -->
-			<a href="{% url 'create-contact' %}"><i class="fas fa-plus-circle add">ADD</i></a>
+			<a href="{% url 'create-contact' %}"><i class="fas fa-plus-circle add"></i></a>
 		</header>
 
 		<!--  CONTACT LIST -->
 		<section class="contacts-library">
 			<ul class="contacts-list">
-				{% for contact in contact_lists %}
+				{% for contact in contact_lists reversed %}
 				<a href="{% url 'contact-details' contact.id %}">
 					<div class="contact-section">
 						<li class="list__item">
@@ -48,6 +50,10 @@
 				</a>
 
 				<hr>
+				{% empty %}
+				<div>
+					<h style="color:white; text-align: center;  ">No Contacts Found..</h>
+				</div>
 				{% endfor %}
 			</ul>
 		</section>
